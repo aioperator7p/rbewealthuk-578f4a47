@@ -39,7 +39,7 @@ export const OptimizedUserManagement = () => {
 
   // Debounced search function
   const debouncedSearch = useMemo(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     return (term: string) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
