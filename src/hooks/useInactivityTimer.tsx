@@ -9,7 +9,7 @@ interface UseInactivityTimerProps {
 
 export const useInactivityTimer = ({ timeout, onTimeout, enabled = true }: UseInactivityTimerProps) => {
   const { toast } = useToast();
-  const timeoutId = useRef<NodeJS.Timeout>();
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const lastActivity = useRef<number>(Date.now());
 
   const resetTimer = useCallback(() => {
