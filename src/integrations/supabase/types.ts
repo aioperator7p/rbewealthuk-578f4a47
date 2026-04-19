@@ -509,9 +509,11 @@ export type Database = {
       }
       foreign_remittances: {
         Row: {
+          account_id: string | null
           amount: number
           approved_at: string | null
           approved_by: string | null
+          bank_name: string | null
           created_at: string
           currency: string
           exchange_rate: number | null
@@ -520,6 +522,7 @@ export type Database = {
           iban: string | null
           id: string
           purpose: string | null
+          recipient_account: string | null
           recipient_account_number: string
           recipient_address: string | null
           recipient_bank_address: string | null
@@ -535,9 +538,11 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          account_id?: string | null
           amount: number
           approved_at?: string | null
           approved_by?: string | null
+          bank_name?: string | null
           created_at?: string
           currency?: string
           exchange_rate?: number | null
@@ -546,6 +551,7 @@ export type Database = {
           iban?: string | null
           id?: string
           purpose?: string | null
+          recipient_account?: string | null
           recipient_account_number: string
           recipient_address?: string | null
           recipient_bank_address?: string | null
@@ -561,9 +567,11 @@ export type Database = {
           user_id: string
         }
         Update: {
+          account_id?: string | null
           amount?: number
           approved_at?: string | null
           approved_by?: string | null
+          bank_name?: string | null
           created_at?: string
           currency?: string
           exchange_rate?: number | null
@@ -572,6 +580,7 @@ export type Database = {
           iban?: string | null
           id?: string
           purpose?: string | null
+          recipient_account?: string | null
           recipient_account_number?: string
           recipient_address?: string | null
           recipient_bank_address?: string | null
@@ -605,6 +614,7 @@ export type Database = {
           id: string
           metadata: Json | null
           rejection_reason: string | null
+          reviewed_at: string | null
           uploaded_at: string
           user_id: string
           verification_status: string
@@ -619,6 +629,7 @@ export type Database = {
           id?: string
           metadata?: Json | null
           rejection_reason?: string | null
+          reviewed_at?: string | null
           uploaded_at?: string
           user_id: string
           verification_status?: string
@@ -633,6 +644,7 @@ export type Database = {
           id?: string
           metadata?: Json | null
           rejection_reason?: string | null
+          reviewed_at?: string | null
           uploaded_at?: string
           user_id?: string
           verification_status?: string
@@ -786,11 +798,13 @@ export type Database = {
           disbursed_at: string | null
           id: string
           interest_rate: number
+          loan_amount: number | null
           loan_type: string
           monthly_payment: number | null
           next_payment_date: string | null
           outstanding_balance: number
           principal_amount: number
+          remaining_balance: number | null
           status: string
           term_months: number
           updated_at: string
@@ -803,11 +817,13 @@ export type Database = {
           disbursed_at?: string | null
           id?: string
           interest_rate: number
+          loan_amount?: number | null
           loan_type: string
           monthly_payment?: number | null
           next_payment_date?: string | null
           outstanding_balance: number
           principal_amount: number
+          remaining_balance?: number | null
           status?: string
           term_months: number
           updated_at?: string
@@ -820,11 +836,13 @@ export type Database = {
           disbursed_at?: string | null
           id?: string
           interest_rate?: number
+          loan_amount?: number | null
           loan_type?: string
           monthly_payment?: number | null
           next_payment_date?: string | null
           outstanding_balance?: number
           principal_amount?: number
+          remaining_balance?: number | null
           status?: string
           term_months?: number
           updated_at?: string
@@ -1062,13 +1080,17 @@ export type Database = {
           account_id: string
           amount: number
           balance_after: number | null
+          bank_name: string | null
           category: string | null
           channel: string | null
           created_at: string
           description: string | null
           id: string
           metadata: Json | null
+          recipient_account: string | null
+          recipient_name: string | null
           reference_number: string
+          routing_code: string | null
           status: string
           transaction_type: string
           updated_at: string
@@ -1078,13 +1100,17 @@ export type Database = {
           account_id: string
           amount: number
           balance_after?: number | null
+          bank_name?: string | null
           category?: string | null
           channel?: string | null
           created_at?: string
           description?: string | null
           id?: string
           metadata?: Json | null
+          recipient_account?: string | null
+          recipient_name?: string | null
           reference_number: string
+          routing_code?: string | null
           status?: string
           transaction_type: string
           updated_at?: string
@@ -1094,13 +1120,17 @@ export type Database = {
           account_id?: string
           amount?: number
           balance_after?: number | null
+          bank_name?: string | null
           category?: string | null
           channel?: string | null
           created_at?: string
           description?: string | null
           id?: string
           metadata?: Json | null
+          recipient_account?: string | null
+          recipient_name?: string | null
           reference_number?: string
+          routing_code?: string | null
           status?: string
           transaction_type?: string
           updated_at?: string
@@ -1250,6 +1280,7 @@ export type Database = {
       user_security: {
         Row: {
           created_at: string
+          email_2fa_enabled: boolean
           failed_login_attempts: number
           id: string
           last_login_at: string | null
@@ -1265,6 +1296,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          email_2fa_enabled?: boolean
           failed_login_attempts?: number
           id?: string
           last_login_at?: string | null
@@ -1280,6 +1312,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          email_2fa_enabled?: boolean
           failed_login_attempts?: number
           id?: string
           last_login_at?: string | null
@@ -1321,6 +1354,7 @@ export type Database = {
           social_instagram: string | null
           social_linkedin: string | null
           social_twitter: string | null
+          super_admin_email: string | null
           updated_at: string
         }
         Insert: {
@@ -1348,6 +1382,7 @@ export type Database = {
           social_instagram?: string | null
           social_linkedin?: string | null
           social_twitter?: string | null
+          super_admin_email?: string | null
           updated_at?: string
         }
         Update: {
@@ -1375,21 +1410,81 @@ export type Database = {
           social_instagram?: string | null
           social_linkedin?: string | null
           social_twitter?: string | null
+          super_admin_email?: string | null
           updated_at?: string
         }
         Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      admin_check_deposits_view: {
+        Row: {
+          account_id: string | null
+          account_number: string | null
+          amount: number | null
+          approved_at: string | null
+          approved_by: string | null
+          back_image_url: string | null
+          check_number: string | null
+          created_at: string | null
+          email: string | null
+          front_image_url: string | null
+          full_name: string | null
+          id: string | null
+          rejection_reason: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_deposits_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_crypto_deposits_view: {
+        Row: {
+          account_id: string | null
+          account_number: string | null
+          amount_crypto: number | null
+          amount_usd: number | null
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          crypto_type: string | null
+          email: string | null
+          full_name: string | null
+          id: string | null
+          proof_url: string | null
+          rejection_reason: string | null
+          status: string | null
+          transaction_hash: string | null
+          updated_at: string | null
+          user_id: string | null
+          wallet_address: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crypto_deposits_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       admin_approve_deposit: {
         Args: {
+          deposit_type: string
           p_id: string
           p_notes?: string
           p_status: string
-          p_type: string
         }
         Returns: Json
       }
@@ -1402,11 +1497,13 @@ export type Database = {
           disbursed_at: string | null
           id: string
           interest_rate: number
+          loan_amount: number | null
           loan_type: string
           monthly_payment: number | null
           next_payment_date: string | null
           outstanding_balance: number
           principal_amount: number
+          remaining_balance: number | null
           status: string
           term_months: number
           updated_at: string
@@ -1435,13 +1532,17 @@ export type Database = {
           account_id: string
           amount: number
           balance_after: number | null
+          bank_name: string | null
           category: string | null
           channel: string | null
           created_at: string
           description: string | null
           id: string
           metadata: Json | null
+          recipient_account: string | null
+          recipient_name: string | null
           reference_number: string
+          routing_code: string | null
           status: string
           transaction_type: string
           updated_at: string
@@ -1456,7 +1557,10 @@ export type Database = {
       }
       admin_delete_account: { Args: { p_id: string }; Returns: boolean }
       admin_delete_loan: { Args: { p_loan_id: string }; Returns: boolean }
-      admin_delete_transaction: { Args: { p_id: string }; Returns: boolean }
+      admin_delete_transaction: {
+        Args: { transaction_id: string }
+        Returns: boolean
+      }
       admin_disable_security_code: {
         Args: { p_user_id: string }
         Returns: boolean
@@ -1498,13 +1602,17 @@ export type Database = {
           account_id: string
           amount: number
           balance_after: number | null
+          bank_name: string | null
           category: string | null
           channel: string | null
           created_at: string
           description: string | null
           id: string
           metadata: Json | null
+          recipient_account: string | null
+          recipient_name: string | null
           reference_number: string
+          routing_code: string | null
           status: string
           transaction_type: string
           updated_at: string
@@ -1518,77 +1626,20 @@ export type Database = {
         }
       }
       apply_domestic_transfer_charge: {
-        Args: { p_amount: number }
+        Args: { p_account_id: string; p_amount: number }
         Returns: number
       }
       apply_international_transfer_charge: {
-        Args: { p_amount: number }
+        Args: { p_account_id: string; p_amount: number }
         Returns: number
       }
       approve_external_transfer: {
-        Args: { p_id: string }
-        Returns: {
-          amount: number
-          approved_at: string | null
-          approved_by: string | null
-          created_at: string
-          currency: string
-          description: string | null
-          fee: number
-          from_account_id: string | null
-          id: string
-          recipient_account_number: string
-          recipient_bank: string | null
-          recipient_name: string
-          recipient_routing: string | null
-          reference_number: string
-          rejection_reason: string | null
-          status: string
-          transfer_type: string
-          updated_at: string
-          user_id: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "transfers"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Args: { p_transaction_id: string }
+        Returns: Json
       }
       approve_foreign_remittance: {
-        Args: { p_id: string }
-        Returns: {
-          amount: number
-          approved_at: string | null
-          approved_by: string | null
-          created_at: string
-          currency: string
-          exchange_rate: number | null
-          fee: number
-          from_account_id: string | null
-          iban: string | null
-          id: string
-          purpose: string | null
-          recipient_account_number: string
-          recipient_address: string | null
-          recipient_bank_address: string | null
-          recipient_bank_name: string
-          recipient_country: string
-          recipient_currency: string
-          recipient_name: string
-          reference_number: string
-          rejection_reason: string | null
-          status: string
-          swift_code: string
-          updated_at: string
-          user_id: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "foreign_remittances"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Args: { remittance_id: string }
+        Returns: Json
       }
       get_account_transfer_limit: {
         Args: { p_account_id: string }
@@ -1674,6 +1725,7 @@ export type Database = {
           social_instagram: string | null
           social_linkedin: string | null
           social_twitter: string | null
+          super_admin_email: string | null
           updated_at: string
         }
         SetofOptions: {
@@ -1825,6 +1877,7 @@ export type Database = {
           social_instagram: string | null
           social_linkedin: string | null
           social_twitter: string | null
+          super_admin_email: string | null
           updated_at: string
         }
         SetofOptions: {
