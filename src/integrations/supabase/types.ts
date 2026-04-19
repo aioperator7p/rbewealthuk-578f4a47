@@ -26,21 +26,41 @@ export type Database = {
           email: string
           email_verified: boolean
           employer: string | null
+          first_name: string | null
           full_name: string
+          gender: string | null
           id: string
           id_document_url: string | null
+          id_expiry_date: string | null
+          id_issuing_country: string | null
+          id_number: string | null
+          id_type: string | null
+          initial_deposit: number | null
+          is_pep: boolean | null
+          last_name: string | null
+          marital_status: string | null
+          marketing_consent: boolean | null
           metadata: Json | null
+          middle_name: string | null
+          nationality: string | null
           occupation: string | null
+          password_hash: string | null
           phone: string | null
           postal_code: string | null
+          preferred_currency: string | null
           proof_of_address_url: string | null
+          purpose_of_account: string | null
+          reference_number: string | null
           rejection_reason: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           selfie_url: string | null
+          source_of_funds: string | null
           ssn_last_four: string | null
           state: string | null
           status: string
+          terms_accepted: boolean | null
+          title: string | null
           updated_at: string
           username: string | null
           verification_code: string | null
@@ -57,21 +77,41 @@ export type Database = {
           email: string
           email_verified?: boolean
           employer?: string | null
+          first_name?: string | null
           full_name: string
+          gender?: string | null
           id?: string
           id_document_url?: string | null
+          id_expiry_date?: string | null
+          id_issuing_country?: string | null
+          id_number?: string | null
+          id_type?: string | null
+          initial_deposit?: number | null
+          is_pep?: boolean | null
+          last_name?: string | null
+          marital_status?: string | null
+          marketing_consent?: boolean | null
           metadata?: Json | null
+          middle_name?: string | null
+          nationality?: string | null
           occupation?: string | null
+          password_hash?: string | null
           phone?: string | null
           postal_code?: string | null
+          preferred_currency?: string | null
           proof_of_address_url?: string | null
+          purpose_of_account?: string | null
+          reference_number?: string | null
           rejection_reason?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           selfie_url?: string | null
+          source_of_funds?: string | null
           ssn_last_four?: string | null
           state?: string | null
           status?: string
+          terms_accepted?: boolean | null
+          title?: string | null
           updated_at?: string
           username?: string | null
           verification_code?: string | null
@@ -88,21 +128,41 @@ export type Database = {
           email?: string
           email_verified?: boolean
           employer?: string | null
+          first_name?: string | null
           full_name?: string
+          gender?: string | null
           id?: string
           id_document_url?: string | null
+          id_expiry_date?: string | null
+          id_issuing_country?: string | null
+          id_number?: string | null
+          id_type?: string | null
+          initial_deposit?: number | null
+          is_pep?: boolean | null
+          last_name?: string | null
+          marital_status?: string | null
+          marketing_consent?: boolean | null
           metadata?: Json | null
+          middle_name?: string | null
+          nationality?: string | null
           occupation?: string | null
+          password_hash?: string | null
           phone?: string | null
           postal_code?: string | null
+          preferred_currency?: string | null
           proof_of_address_url?: string | null
+          purpose_of_account?: string | null
+          reference_number?: string | null
           rejection_reason?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           selfie_url?: string | null
+          source_of_funds?: string | null
           ssn_last_four?: string | null
           state?: string | null
           status?: string
+          terms_accepted?: boolean | null
+          title?: string | null
           updated_at?: string
           username?: string | null
           verification_code?: string | null
@@ -614,6 +674,7 @@ export type Database = {
           id: string
           metadata: Json | null
           rejection_reason: string | null
+          review_notes: string | null
           reviewed_at: string | null
           uploaded_at: string
           user_id: string
@@ -629,6 +690,7 @@ export type Database = {
           id?: string
           metadata?: Json | null
           rejection_reason?: string | null
+          review_notes?: string | null
           reviewed_at?: string | null
           uploaded_at?: string
           user_id: string
@@ -644,6 +706,7 @@ export type Database = {
           id?: string
           metadata?: Json | null
           rejection_reason?: string | null
+          review_notes?: string | null
           reviewed_at?: string | null
           uploaded_at?: string
           user_id?: string
@@ -992,8 +1055,12 @@ export type Database = {
           email: string
           full_name: string | null
           id: string
+          loan_applications_allowed: boolean
           phone: string | null
           title: string | null
+          transfer_code_1_enabled: boolean
+          transfer_code_2_enabled: boolean
+          transfer_code_3_enabled: boolean
           updated_at: string
           username: string | null
         }
@@ -1006,8 +1073,12 @@ export type Database = {
           email: string
           full_name?: string | null
           id: string
+          loan_applications_allowed?: boolean
           phone?: string | null
           title?: string | null
+          transfer_code_1_enabled?: boolean
+          transfer_code_2_enabled?: boolean
+          transfer_code_3_enabled?: boolean
           updated_at?: string
           username?: string | null
         }
@@ -1020,8 +1091,12 @@ export type Database = {
           email?: string
           full_name?: string | null
           id?: string
+          loan_applications_allowed?: boolean
           phone?: string | null
           title?: string | null
+          transfer_code_1_enabled?: boolean
+          transfer_code_2_enabled?: boolean
+          transfer_code_3_enabled?: boolean
           updated_at?: string
           username?: string | null
         }
@@ -1481,8 +1556,8 @@ export type Database = {
     Functions: {
       admin_approve_deposit: {
         Args: {
+          deposit_id: string
           deposit_type: string
-          p_id: string
           p_notes?: string
           p_status: string
         }
@@ -1595,35 +1670,10 @@ export type Database = {
         Args: {
           p_amount?: number
           p_description?: string
-          p_id: string
           p_status?: string
+          transaction_id: string
         }
-        Returns: {
-          account_id: string
-          amount: number
-          balance_after: number | null
-          bank_name: string | null
-          category: string | null
-          channel: string | null
-          created_at: string
-          description: string | null
-          id: string
-          metadata: Json | null
-          recipient_account: string | null
-          recipient_name: string | null
-          reference_number: string
-          routing_code: string | null
-          status: string
-          transaction_type: string
-          updated_at: string
-          user_id: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "transactions"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Returns: Json
       }
       apply_domestic_transfer_charge: {
         Args: { p_account_id: string; p_amount: number }
@@ -1634,12 +1684,16 @@ export type Database = {
         Returns: number
       }
       approve_external_transfer: {
-        Args: { p_transaction_id: string }
+        Args: { p_reference_number?: string; p_transaction_id: string }
         Returns: Json
       }
       approve_foreign_remittance: {
-        Args: { remittance_id: string }
+        Args: { p_reference_number?: string; remittance_id: string }
         Returns: Json
+      }
+      generate_account_number: {
+        Args: { account_type: string }
+        Returns: string
       }
       get_account_transfer_limit: {
         Args: { p_account_id: string }
@@ -1647,7 +1701,7 @@ export type Database = {
       }
       get_admin_notification_counts: { Args: never; Returns: Json }
       get_admin_users_paginated: {
-        Args: { p_limit?: number; p_offset?: number; p_search?: string }
+        Args: { p_limit?: number; p_search?: string; page_number?: number }
         Returns: {
           account_count: number
           account_locked: boolean
@@ -1761,94 +1815,21 @@ export type Database = {
         Returns: Json
       }
       reject_account_application: {
-        Args: { p_id: string; p_reason: string }
-        Returns: {
-          account_type: string | null
-          address: string | null
-          annual_income: number | null
-          city: string | null
-          country: string | null
-          created_at: string
-          date_of_birth: string | null
-          email: string
-          email_verified: boolean
-          employer: string | null
-          full_name: string
-          id: string
-          id_document_url: string | null
-          metadata: Json | null
-          occupation: string | null
-          phone: string | null
-          postal_code: string | null
-          proof_of_address_url: string | null
-          rejection_reason: string | null
-          reviewed_at: string | null
-          reviewed_by: string | null
-          selfie_url: string | null
-          ssn_last_four: string | null
-          state: string | null
-          status: string
-          updated_at: string
-          username: string | null
-          verification_code: string | null
-          verification_code_expires_at: string | null
-        }
-        SetofOptions: {
-          from: "*"
-          to: "account_applications"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Args: { p_application_id: string; p_reason: string }
+        Returns: Json
       }
       set_account_transfer_limit: {
-        Args: { p_account_id: string; p_limit: number }
-        Returns: {
-          account_number: string
-          account_type: string
-          available_balance: number
-          balance: number
-          created_at: string
-          currency: string
-          iban: string | null
-          id: string
-          routing_number: string | null
-          status: string
-          swift_code: string | null
-          transfer_blocked: boolean
-          transfer_limit: number
-          updated_at: string
-          user_id: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "accounts"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Args: { p_account_id: string; p_daily_limit: number }
+        Returns: Json
       }
       update_email_template: {
         Args: {
           p_html: string
-          p_id: string
           p_is_active?: boolean
           p_subject: string
+          template_id: string
         }
-        Returns: {
-          created_at: string
-          html_template: string
-          id: string
-          is_active: boolean
-          subject_template: string
-          template_name: string
-          template_variables: Json | null
-          updated_at: string
-        }
-        SetofOptions: {
-          from: "*"
-          to: "email_templates"
-          isOneToOne: true
-          isSetofReturn: false
-        }
+        Returns: Json
       }
       update_website_settings: {
         Args: { p_settings: Json }
